@@ -1,13 +1,11 @@
 #pragma once
-#include "FormulaTree.h"
 
 #define SIZE 100 // defining stack size.
 
-using StackInfo = std::string;
-
+template<typename T>
 class Stack
 {
-    StackInfo* arr;
+    T* arr;
     int top;
     int capacity;
 
@@ -15,26 +13,29 @@ public:
     Stack(int size = SIZE);
     ~Stack();
 
-    void push(StackInfo);
-    StackInfo pop();
-    StackInfo peek();
+    void push(T info);
+    T pop();
+    T peek();
     int size();
     bool isEmpty();
     bool isFull();
 };
 
-Stack::Stack(int size)
+template<typename T>
+Stack<T>::Stack(int size)
 {
-    arr = new StackInfo[size];
+    arr = new T[size];
     capacity = size;
     top = -1;
 }
 
-Stack::~Stack() {
+template<typename T>
+Stack<T>::~Stack() {
     delete[] arr;
 }
 
-void Stack::push(StackInfo x)
+template<typename T>
+void Stack<T>::push(T x)
 {
     if (isFull())
     {
@@ -44,7 +45,8 @@ void Stack::push(StackInfo x)
     arr[++top] = x;
 }
 
-StackInfo Stack::pop()
+template<typename T>
+T Stack<T>::pop()
 {
     if (isEmpty())
     {
@@ -54,7 +56,8 @@ StackInfo Stack::pop()
     return arr[top--];
 }
 
-StackInfo Stack::peek()
+template<typename T>
+T Stack<T>::peek()
 {
     if (!isEmpty()) {
         return arr[top];
@@ -65,14 +68,17 @@ StackInfo Stack::peek()
     }
 }
 
-int Stack::size() {
+template<typename T>
+int Stack<T>::size() {
     return top + 1;
 }
 
-bool Stack::isEmpty() {
+template<typename T>
+bool Stack<T>::isEmpty() {
     return top == -1;   
 }
 
-bool Stack::isFull() {
+template<typename T>
+bool Stack<T>::isFull() {
     return top == capacity - 1;     
 }

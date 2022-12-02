@@ -1,8 +1,9 @@
 #pragma once
-#include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <iostream>
+#include "Stack.h"
 
 using TInfo = char;
 
@@ -185,23 +186,6 @@ Tree Build_Formula(std::ifstream& file)
 	return root;
 }
 
-Tree Build_Formula(std::string formula, int index)
-{
-	char c = formula[index];
-	Tree root = new NODE(' ');
-	if (c >= '0' && c <= '9' || c == 'x' || c == 'X'
-		|| c == 'y' || c == 'Y' || c == 'z' || c == 'Z')
-		root->info = c;
-	else
-	{
-		root->left = Build_Formula(formula, index+1);
-		root->info = formula[index];
-		root->right = Build_Formula(formula, index+1);
-		c = formula[index];
-	}
-	return root;
-}
-
 std::string print_to_string(const Tree& t)
 {
 	std::string result = "";
@@ -225,6 +209,16 @@ std::string treeFormulaToString(Tree& root, std::stringstream& buffer, std::stri
 			buffer << ')';
 	}
 	return buffer.str();
+}
+
+void postorder(Tree root)
+{
+	if (root)
+	{
+		postorder(root->left);
+		postorder(root->right);
+		std::cout << root->info;
+	}
 }
 
 int calc(const Tree& t)
